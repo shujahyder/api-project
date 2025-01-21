@@ -1,19 +1,38 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { useEffect, useState } from 'react'
+import axios from 'axios'
 import './App.css'
 
 function App() {
-  
+  useEffect(()=>{
+    async function fetchApiData(){
+      try{
+        const response = await axios.get('https://catfact.ninja/fact')
+console.log("response",response)
+        setData(response.data);
+            } catch (error) {
+        console.log("error", error.message);
+        setError(error.message);
+            }
+          }
 
-  return (
-    <>
-      <h1>
-        Hello World
-      </h1>
-        
-    </>
-  )
-}
+          fetchApiData();
+        }, []);
 
-export default App
+        const [data, setData] = useState(null);
+        const [error, setError] = useState(null);
+
+        return (
+          <>
+            {error ? (
+        <p>Error: {error}</p>
+            ) : (
+        data && (
+          <div>
+            <p>{data.fact}</p>
+          </div>
+        )
+            )}
+          </>
+        );
+      }
+      export default App;
