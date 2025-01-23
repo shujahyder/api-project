@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react'
-import axios from 'axios'
-import './App.css'
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import './App.css';
 
 function App() {
   const [name, setName] = useState('');
@@ -9,7 +9,7 @@ function App() {
 
   const fetchApiData = async (name) => {
     try {
-      const response = await axios.get(`https://api.genderize.io?name=${name}`);
+      const response = await axios.get(`https://api.nationalize.io?name=${name}`);
       console.log("response", response);
       setData(response.data);
     } catch (error) {
@@ -30,16 +30,17 @@ function App() {
           type="text" 
           value={name} 
           onChange={(e) => setName(e.target.value)} 
-          placeholder="Enter a name to guess the gender" 
+          placeholder="Enter a name to guess the nationality" 
         />
         <button type="submit">Enter</button>
       </form>
       {error ? (
         <p>Oops! Something went wrong: {error}</p>
       ) : (
-        data && (
+        data && data.country && (
           <div>
-            <p>The gender of "{name}"  is {data.gender}.</p>
+            <p>The nationality of "{name}" is:</p>
+            <p>{data.country[0].country_id}</p>
           </div>
         )
       )}
