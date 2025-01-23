@@ -9,7 +9,7 @@ function App() {
 
   const fetchApiData = async (name) => {
     try {
-      const response = await axios.get(`https://api.agify.io?name=${name}`);
+      const response = await axios.get(`https://api.genderize.io?name=${name}`);
       console.log("response", response);
       setData(response.data);
     } catch (error) {
@@ -30,16 +30,16 @@ function App() {
           type="text" 
           value={name} 
           onChange={(e) => setName(e.target.value)} 
-          placeholder="Enter a name to guess the age" 
+          placeholder="Enter a name to guess the gender" 
         />
-        <button type="submit">Guess Age</button>
+        <button type="submit">Enter</button>
       </form>
       {error ? (
         <p>Oops! Something went wrong: {error}</p>
       ) : (
         data && (
           <div>
-            <p>The age of "{name}",  is {data.age} years.</p>
+            <p>The gender of "{name}"  is {data.gender}.</p>
           </div>
         )
       )}
