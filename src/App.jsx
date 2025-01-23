@@ -8,7 +8,7 @@ function App() {
 
   const fetchApiData = async () => {
     try {
-      const response = await axios.get(`https://ipinfo.io/2001:4860:7:222::ff/geo`);
+      const response = await axios.get(`https://official-joke-api.appspot.com/random_joke`);
       console.log("response", response);
       setData(response.data);
     } catch (error) {
@@ -26,12 +26,11 @@ function App() {
       {error ? (
         <p>Oops! Something went wrong: {error}</p>
       ) : (
-        data && data.ip && (
-          <ul>
-            <li>City: {data.city}</li>
-            <li>Region: {data.region}</li>
-            <li>Country: {data.country}</li>
-          </ul>
+        data && (
+          <div>
+            <p>{data.setup}</p>
+            <p>{data.punchline}</p>
+          </div>
         )
       )}
     </>
