@@ -1,47 +1,38 @@
-import { useEffect, useState } from 'react'
-import axios from 'axios'
-import './App.css'
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import './App.css';
 
 function App() {
-  const [name, setName] = useState('');
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
 
-  const fetchApiData = async (name) => {
+  useEffect(() => {
+    fetchApiData();
+  }, []);
+
+  const fetchApiData = async () => {
     try {
-      const response = await axios.get(`https://api.genderize.io?name=${name}`);
+      const response = await axios.get(`https://randomuser.me/api/`);
       console.log("response", response);
-      setData(response.data);
+      setData(response.data.results[0]);
     } catch (error) {
       console.log("error", error.message);
       setError(error.message);
     }
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    fetchApiData(name);
-  };
-
   return (
     <>
-      <form onSubmit={handleSubmit}>
-        <input 
-          type="text" 
-          value={name} 
-          onChange={(e) => setName(e.target.value)} 
-          placeholder="Enter a name to guess the gender" 
-        />
-        <button type="submit">Enter</button>
-      </form>
-      {error ? (
+      {data && (
+        <div>
+          <p>Name: {data.name.first} {data.name.last}</p>
+          <p>Age: {data.dob.age}</p>
+          <p>Gender: {data.gender}</p>
+          <img src={data.picture.large} alt="User" />
+        </div>
+      )}
+      {error && (
         <p>Oops! Something went wrong: {error}</p>
-      ) : (
-        data && (
-          <div>
-            <p>The gender of "{name}"  is {data.gender}.</p>
-          </div>
-        )
       )}
     </>
   );
