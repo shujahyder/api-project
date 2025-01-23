@@ -8,7 +8,7 @@ function App() {
 
   const fetchApiData = async () => {
     try {
-      const response = await axios.get(`https://api.ipify.org?format=json`);
+      const response = await axios.get(`https://ipinfo.io/2001:4860:7:222::ff/geo`);
       console.log("response", response);
       setData(response.data);
     } catch (error) {
@@ -26,10 +26,12 @@ function App() {
       {error ? (
         <p>Oops! Something went wrong: {error}</p>
       ) : (
-        data && (
-          <p>
-            {data.ip}
-          </p>
+        data && data.ip && (
+          <ul>
+            <li>City: {data.city}</li>
+            <li>Region: {data.region}</li>
+            <li>Country: {data.country}</li>
+          </ul>
         )
       )}
     </>
